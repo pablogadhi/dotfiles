@@ -1,0 +1,77 @@
+! special
+*.foreground:   #c5c8c6
+*.background:   #1d1f21
+*.cursorColor:  #c5c8c6
+
+! black
+*.color0:       #282a2e
+*.color8:       #373b41
+
+! red
+*.color1:       #a54242
+*.color9:       #cc6666
+
+! green
+*.color2:       #8c9440
+*.color10:      #b5bd68
+
+! yellow
+*.color3:       #de935f
+*.color11:      #f0c674
+
+! blue
+*.color4:       #5f819d
+*.color12:      #81a2be
+
+! magenta
+*.color5:       #85678f
+*.color13:      #b294bb
+
+! cyan
+*.color6:       #5e8d87
+*.color14:      #8abeb7
+
+! white
+*.color7:       #707880
+*.color15:      #c5c8c6
+
+! XFT Settings
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
+Xft.hintstyle: hintslight
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+! Urxvt Settings
+URxvt*depth: 32
+URxvt*scrollBar: false
+URxvt*font: xft:FantasqueSansMono Nerd Font:pixelsize=17:style=bold
+URxvt*boldFont: xft:FantasqueSansMono Nerd Font:pixelsize=17:style=bold
+URxvt*italicFont: xft:FantasqueSansMono Nerd Font:pixelsize=17:style=italic
+URxvt*boldItalicFont: xft:FantasqueSansMono Nerd Font:pixelsize=17:style=bolditalic
+URxvt*internalBorder: 14
+URxvt*letterSpace: 0
+
+URxvt.resize-font.step: 1
+
+! do not scroll with output
+URxvt*scrollTtyOutput: false
+
+! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
+URxvt*scrollWithBuffer: true
+
+! scroll back to the bottom on keypress
+URxvt*scrollTtyKeypress: true
+
+! Disable bindings for shift clipboard managment
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+URxvt.perl-ext-common: resize-font,selection-to-clipboard
+
+! Remap Ctrl-Enter
+URxvt.keysym.Control-Return: \[13;5u
+
+! Remap Ctrl-Shift-I for formatting in vim
+URxvt.keysym.Control-Shift-I: \[13;69

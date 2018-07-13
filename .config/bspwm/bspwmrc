@@ -1,0 +1,51 @@
+#! /bin/sh
+
+sxhkd &
+compton -b --config ~/.config/compton.conf
+~/Scripts/ChangeBackground.sh &
+~/Scripts/launchPolybar.sh &
+
+#Remap temporal de win key
+xkbcomp -i 11 ~/tempusbkblayout.xkb $DISPLAY
+
+# bspc monitor -d I II III IV V VI VII VIII IX X
+i=0
+n=`bspc query -M | wc -l`  # count number of lines in bspwm's monitor list
+per=$(( 6 / n ))          # number of desktops per monitor
+for monitor in `bspc query -M`; do
+    bspc monitor $monitor -d `seq $i $(( i + per - 1 ))` 
+    # seq is end-inclusive; `seq 1 $((1+2))` returns "1 2 3"
+    i=$(( i + per ))
+done
+
+bspc config border_width         2
+bspc config window_gap          24
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      false
+
+bspc config click to focus none
+bspc config focus_follows_pointer true
+bspc config pointer_follows_monitor true
+
+bspc config remove_unplugged_monitors true
+bspc config remove_disabled_monitors true
+
+#Rules
+
+bspc rule -a feh state=floating follow=on
+bspc rule -a libreoffice desktop=^1 state=floating follow=on
+bspc rule -a Steam desktop=^1 state=floating follow=on
+bspc rule -a Gimp-2.10 desktop=^1 state=floating follow=on
+bspc rule -a Blender desktop=^1 state=floating follow=on
+bspc rule -a Nemo desktop=^1 state=floating follow=on
+bspc rule -a Firefox desktop=^2 follow=on
+bspc rule -a Chromium desktop=^2 follow=on
+bspc rule -a Code desktop=^3 follow=on
+bspc rule -a Unity desktop=^3 follow=on
+bspc rule -a jetbrains-studio desktop=^3 follow=on
+bspc rule -a URxvt desktop=^4 follow=on
+bspc rule -a GitKraken desktop=^5 follow=on
+bspc rule -a Spotify desktop=^6 follow=on
+
