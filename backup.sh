@@ -1,14 +1,14 @@
 #!/bin/bash
 
-files='.eslintrc .Xresources .zshrc'
-directories='aurman bspwm nvim polybar ranger rofi sxhkd wal'
+homeFiles='.eslintrc.json .Xresources .zshrc Scripts'
+confDirFiles='aurman bspwm nvim polybar ranger rofi sxhkd wal compton.conf'
 
-for file in $files 
+for file in $homeFiles 
 do 
-    cp ~/$file ./
+    cp -r ~/$file ./
 done
 
-for dir in $directories
+for dir in $confDirFiles
 do
     cp -r ~/.config/$dir ./.config/
 done

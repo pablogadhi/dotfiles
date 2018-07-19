@@ -8,14 +8,15 @@ Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive', { 'on': ['Gedit', 'Gsplit', 'Gvsplit', 'Gtabedit', 'Gdiff', 'Gstatus', 'Gcommit', 'Gblame', 'Git'] }
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'raimondi/delimitmate'
+" Plug 'raimondi/delimitmate'
+Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular', { 'on': ['Tab', 'Tabularize'] }
 Plug 'plasticboy/vim-markdown' ,{ 'for': 'markdown'}
 Plug 'tpope/vim-repeat'
@@ -44,10 +45,11 @@ Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'isRuslan/vim-es6', { 'for': ['javascript', 'javascript.jsx' ] }
 Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx' ] }
-Plug 'shougo/neopairs.vim'
+" Plug 'shougo/neopairs.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
 Plug 'honza/vim-snippets'
+" Plug 'tpope/vim-dispatch'
 
 call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -234,6 +236,9 @@ vnoremap <leader>P "+P
 "Indent and put cursor between with Ctrl-Enter
 inoremap [13;5u <CR><CR><Up><Tab>
 
+"Exit from emulated terminal with ESC
+tnoremap <Esc> <C-\><C-n>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins Settings and Mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -243,7 +248,7 @@ let g:airline_powerline_fonts = 1
 let g:airline_skip_empty_sections = 1
 
 if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
+    let g:airline_symbols = {}
 endif
 
 " powerline symbols
@@ -311,3 +316,10 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 imap <expr><silent><CR> pumvisible() ? deoplete#mappings#close_popup() .
             \ "\<Plug>(neosnippet_jump_or_expand)" : "\<CR>"
 smap <silent><CR> <Plug>(neosnippet_jump_or_expand)
+
+"Ale
+let g:ale_fixers = {
+            \'javascript': ['eslint'],
+            \'css': ['stylelint'],
+            \}
+noremap <leader>[13;69 :ALEFix<CR>
