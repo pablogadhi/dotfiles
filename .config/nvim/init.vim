@@ -15,18 +15,17 @@ Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
 Plug 'terryma/vim-multiple-cursors'
-" Plug 'raimondi/delimitmate'
 Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular', { 'on': ['Tab', 'Tabularize'] }
 Plug 'plasticboy/vim-markdown' ,{ 'for': 'markdown'}
 Plug 'tpope/vim-repeat'
 Plug 'dylanaraps/wal.vim'
-Plug 'mattn/emmet-vim', { 'for': 'html' }
+Plug 'mattn/emmet-vim', { 'for': ['html', 'javascript.jsx'] }
 Plug 'chiel92/vim-autoformat'
 Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' }
 Plug 'https://gitlab.com/mixedCase/deoplete-omnisharp.git', { 'for': 'cs' }
 Plug 'OrangeT/vim-csharp', { 'for': 'cs' }
-Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx' ] }
+Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'ap/vim-css-color', { 'for' : 'css' }
 Plug 'hail2u/vim-css3-syntax', { 'for' : 'css' }
@@ -40,16 +39,17 @@ else
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
 Plug 'zchee/deoplete-jedi', { 'for': 'python' }
-Plug 'wokalski/autocomplete-flow', { 'for': ['javascript', 'javascript.jsx' ] }
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
+Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx' ] }
+" Plug 'Shougo/neosnippet'
+" Plug 'Shougo/neosnippet-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 Plug 'isRuslan/vim-es6', { 'for': ['javascript', 'javascript.jsx' ] }
 Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx' ] }
-" Plug 'shougo/neopairs.vim'
+Plug 'shougo/neopairs.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
-Plug 'honza/vim-snippets'
-" Plug 'tpope/vim-dispatch'
+Plug 'ervandew/supertab'
 
 call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -160,7 +160,7 @@ set spelllang=en_us
 set splitright
 
 "Improve completition popup
-set completeopt=longest,menuone
+set completeopt=menuone
 
 "Se code folding method
 "set foldmethod=indent
@@ -196,6 +196,9 @@ let g:ruby_host_prog = '/home/gadhi/.gem/ruby/2.5.0/bin/neovim-ruby-host'
 let g:ruby_host_skip_check = 1
 let g:node_host_prog = '/usr/bin/neovim-node-host'
 let g:node_host_skip_check = 1
+
+" Open help in vertical windows
+cabbrev h vert h
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Color Settings
@@ -251,7 +254,7 @@ if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
 
-" powerline symbols
+" Powerline symbols
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
@@ -266,6 +269,28 @@ let g:ctrlp_cmd = 'CtrlPBuffer'
 
 "NerdTree
 noremap <C-Space> :NERDTreeToggle<CR>
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
+
+"NerdTree Git Plugin
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "",
+    \ "Staged"    : "",
+    \ "Untracked" : "濫",
+    \ "Renamed"   : "",
+    \ "Unmerged"  : "",
+    \ "Deleted"   : "",
+    \ "Dirty"     : "",
+    \ "Clean"     : "",
+    \ 'Ignored'   : "﬒",
+    \ "Unknown"   : "?"
+    \ }
+
+"DevIcons
+let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ' '
+let g:DevIconsDefaultFolderOpenSymbol = ' '
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
 
 "Tagbar
 noremap <M-Space> :TagbarToggle<CR>
@@ -280,9 +305,6 @@ let g:NERDToggleCheckAllLines = 1
 "AutoFormat
 noremap [13;69 mf ggVG :Autoformat<CR> `f
 
-"DelimitMate
-let delimitMate_expand_cr = 1
-
 "Omnisharp
 let g:OmniSharp_server_type = 'v1'
 let g:OmniSharp_server_path = '/home/gadhi/builds/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe'
@@ -294,28 +316,48 @@ let g:neopairs#enable = 1
 call deoplete#custom#source('_', 'converters', ['converter_auto_paren'])
 
 "Emmet
-let g:user_emmet_leader_key='<C-Y>'
+" let g:user_emmet_leader_key='<C-Y>'
+let g:user_emmet_leader_key='<Tab>'
+let g:user_emmet_settings = {
+            \  'javascript.jsx' : {
+            \      'extends' : 'jsx',
+            \  },
+            \}
 
 " NeoSnippets
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-Y>     <Plug>(neosnippet_expand_or_jump)
-smap <C-Y>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-Y>     <Plug>(neosnippet_expand_target)
-let g:neosnippet#enable_completed_snippet = 1
-let g:neosnippet#snippets_directory='~/.local/share/nvim/plugged/vim-snippets/snippets'
+" imap <C-Y>     <Plug>(neosnippet_expand_or_jump)
+" smap <C-Y>     <Plug>(neosnippet_expand_or_jump)
+" xmap <C-Y>     <Plug>(neosnippet_expand_target)
+
+" Custom snippets
+" let g:neosnippet#snippets_directory='~/.local/share/nvim/plugged/vim-snippets/snippets'
 
 "SuperTablike Behaviour
-imap <expr><TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ neosnippet#expandable_or_jumpable() ?
-            \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
-" Expands or completes the selected snippet/item in the popup menu
-imap <expr><silent><CR> pumvisible() ? deoplete#mappings#close_popup() .
-            \ "\<Plug>(neosnippet_jump_or_expand)" : "\<CR>"
-smap <silent><CR> <Plug>(neosnippet_jump_or_expand)
+" Conceal markers
+" if has('conceal')
+" set conceallevel=2 concealcursor=niv
+" endif
+
+" Expand the completed snippet trigger by <CR>.
+" imap <expr><CR>
+" \ (pumvisible() && neosnippet#expandable()) ?
+" \ "\<Plug>(neosnippet_expand)" : "\<CR>"
+
+"Clear markers when leaving insert mode
+" autocmd InsertLeave * NeoSnippetClearMarkers
+
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<c-y>"
+let g:UltiSnipsJumpForwardTrigger="<c-y>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "Ale
 let g:ale_fixers = {
@@ -323,3 +365,11 @@ let g:ale_fixers = {
             \'css': ['stylelint'],
             \}
 noremap <leader>[13;69 :ALEFix<CR>
+
+"Path for unity
+let g:ale_cs_mcsc_assemblies = [
+            \ '/home/gadhi/Unity-2018.1.6f1/Editor/Data/Managed/UnityEngine.dll',
+            \]
+
+" SuperTab
+let g:SuperTabDefaultCompletionType = "<c-n>"
