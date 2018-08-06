@@ -69,6 +69,7 @@ plugins=(
     pip
     archlinux
     python
+    yarn
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -106,3 +107,7 @@ alias vim="nvim"
 #Personal Exports
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
 #export PATH=$PATH:$JAVA_HOME/bin
+
+#FZF source files
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh

@@ -40,12 +40,13 @@ else
 endif
 Plug 'zchee/deoplete-jedi', { 'for': 'python' }
 Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx' ] }
-" Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet'
 " Plug 'Shougo/neosnippet-snippets'
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'isRuslan/vim-es6', { 'for': ['javascript', 'javascript.jsx' ] }
 Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx' ] }
+Plug 'justinj/vim-react-snippets'
 Plug 'shougo/neopairs.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
@@ -211,9 +212,17 @@ colorscheme wal
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Search in visual mode with + and # (the current selection)
-vnoremap <silent> + :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+" Search for selected text, forwards or backwards.
+vnoremap <silent> * :<C-U>
+            \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+            \gvy/<C-R><C-R>=substitute(
+            \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+            \gV:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+            \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+            \gvy?<C-R><C-R>=substitute(
+            \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+            \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 "Better movement between windows
 noremap <C-j> <C-W>j
@@ -241,6 +250,17 @@ inoremap [13;5u <CR><CR><Up><Tab>
 
 "Exit from emulated terminal with ESC
 tnoremap <Esc> <C-\><C-n>
+
+"Make < > shifts keep selection
+vnoremap < <gv
+vnoremap > >gv
+
+"Disable W command
+map W <Nop>
+
+"Add numbered up and down movements to the jumplist
+nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
+nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins Settings and Mappings
@@ -274,17 +294,17 @@ let g:NERDTreeDirArrowCollapsible = ''
 
 "NerdTree Git Plugin
 let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "",
-    \ "Staged"    : "",
-    \ "Untracked" : "濫",
-    \ "Renamed"   : "",
-    \ "Unmerged"  : "",
-    \ "Deleted"   : "",
-    \ "Dirty"     : "",
-    \ "Clean"     : "",
-    \ 'Ignored'   : "﬒",
-    \ "Unknown"   : "?"
-    \ }
+            \ "Modified"  : "",
+            \ "Staged"    : "",
+            \ "Untracked" : "濫",
+            \ "Renamed"   : "",
+            \ "Unmerged"  : "",
+            \ "Deleted"   : "",
+            \ "Dirty"     : "",
+            \ "Clean"     : "",
+            \ 'Ignored'   : "﬒",
+            \ "Unknown"   : "?"
+            \ }
 
 "DevIcons
 let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ' '
@@ -303,7 +323,8 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 "AutoFormat
-noremap [13;69 mf ggVG :Autoformat<CR> `f
+autocmd BufWrite * execute "normal! \mf"
+noremap [13;69 :Autoformat<CR>
 
 "Omnisharp
 let g:OmniSharp_server_type = 'v1'
@@ -316,8 +337,7 @@ let g:neopairs#enable = 1
 call deoplete#custom#source('_', 'converters', ['converter_auto_paren'])
 
 "Emmet
-" let g:user_emmet_leader_key='<C-Y>'
-let g:user_emmet_leader_key='<Tab>'
+let g:user_emmet_leader_key='<C-E>'
 let g:user_emmet_settings = {
             \  'javascript.jsx' : {
             \      'extends' : 'jsx',
@@ -326,12 +346,17 @@ let g:user_emmet_settings = {
 
 " NeoSnippets
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-" imap <C-Y>     <Plug>(neosnippet_expand_or_jump)
-" smap <C-Y>     <Plug>(neosnippet_expand_or_jump)
-" xmap <C-Y>     <Plug>(neosnippet_expand_target)
+imap <C-Y>     <Plug>(neosnippet_expand_or_jump)
+smap <C-Y>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-Y>     <Plug>(neosnippet_expand_target)
+
+" Disable Runtime Snippets
+let g:neosnippet#disable_runtime_snippets = {
+            \   '_' : 1,
+            \ }
 
 " Custom snippets
-" let g:neosnippet#snippets_directory='~/.local/share/nvim/plugged/vim-snippets/snippets'
+let g:neosnippet#snippets_directory='/home/gadhi/.local/share/nvim/plugged/vim-snippets/snippets'
 
 "SuperTablike Behaviour
 " imap <expr><TAB>
@@ -342,9 +367,9 @@ let g:user_emmet_settings = {
 " \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " Conceal markers
-" if has('conceal')
-" set conceallevel=2 concealcursor=niv
-" endif
+if has('conceal')
+    set conceallevel=2 concealcursor=niv
+endif
 
 " Expand the completed snippet trigger by <CR>.
 " imap <expr><CR>
@@ -355,9 +380,9 @@ let g:user_emmet_settings = {
 " autocmd InsertLeave * NeoSnippetClearMarkers
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<c-y>"
-let g:UltiSnipsJumpForwardTrigger="<c-y>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" let g:UltiSnipsExpandTrigger="<c-y>"
+" let g:UltiSnipsJumpForwardTrigger="<c-y>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "Ale
 let g:ale_fixers = {
@@ -373,3 +398,12 @@ let g:ale_cs_mcsc_assemblies = [
 
 " SuperTab
 let g:SuperTabDefaultCompletionType = "<c-n>"
+
+"AutoPairs
+let g:AutoPairsShortcutJump = "<leader><M-n>"
+
+"Deoplete-TernJs
+let g:deoplete#sources#ternjs#tern_bin = '/home/gadhi/builds/tern/bin/tern'
+
+"JSX
+let g:jsx_ext_required = 0
