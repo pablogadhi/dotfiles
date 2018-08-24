@@ -10,7 +10,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
@@ -51,6 +51,7 @@ Plug 'shougo/neopairs.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
 Plug 'ervandew/supertab'
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -85,7 +86,7 @@ set history=10000
 set undolevels=1000
 
 "Set lines after and before cursor when scrolling
-set so=5
+set so=15
 
 "Set line numbers
 set number
@@ -201,6 +202,24 @@ let g:node_host_skip_check = 1
 " Open help in vertical windows
 cabbrev h vert h
 
+" Resize QuickFix window height Automatically
+au FileType qf call AdjustWindowHeight(3, 10)
+function! AdjustWindowHeight(minheight, maxheight)
+    exe max([min([line("$")+2, a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
+
+" Close QuickFix window if its the last
+au BufEnter * call MyLastWindow()
+function! MyLastWindow()
+  " if the window is quickfix go on
+  if &buftype=="quickfix"
+    " if this window is last on screen quit without warning
+    if winbufnr(2) == -1
+      quit!
+    endif
+  endif
+endfunction
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Color Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -212,6 +231,10 @@ colorscheme wal
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Linewise up and down movement
+nmap j gj
+nmap k gk
+
 " Search for selected text, forwards or backwards.
 vnoremap <silent> * :<C-U>
             \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
@@ -249,7 +272,7 @@ vnoremap <leader>P "+P
 inoremap [13;5u <CR><CR><Up><Tab>
 
 "Exit from emulated terminal with ESC
-tnoremap <Esc> <C-\><C-n>
+tnoremap <C-E> <C-\><C-n>
 
 "Make < > shifts keep selection
 vnoremap < <gv
@@ -262,6 +285,13 @@ map W <Nop>
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
 nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
 
+" Toggle Folds
+nnoremap <Space> za
+vnoremap <Space> zf
+
+" No hlsearch
+nnoremap <leader>nh :nohlsearch<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins Settings and Mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -269,6 +299,7 @@ nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
 let g:airline_theme = 'term'
 let g:airline_powerline_fonts = 1
 let g:airline_skip_empty_sections = 1
+let g:airline#extensions#ale#enabled = 1
 
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -285,7 +316,29 @@ let g:airline_symbols.linenr = ''
 let g:airline_symbols.maxlinenr = '並'
 
 "CtrlP
-let g:ctrlp_cmd = 'CtrlPBuffer'
+" let g:ctrlp_cmd = 'CtrlPBuffer'
+
+" FZF
+noremap ; :Buffers<CR>
+noremap <C-P> :Files<CR>
+noremap <leader>t :Tags<CR>
+noremap <leader>f :Ag<Space>
+
+" Match FZF with colorscheme
+let g:fzf_colors =
+            \ { 'fg':      ['fg', 'Normal'],
+            \ 'bg':      ['bg', 'Normal'],
+            \ 'hl':      ['fg', 'Comment'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':     ['fg', 'Statement'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'border':  ['fg', 'Ignore'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'Comment'] }
 
 "NerdTree
 noremap <C-Space> :NERDTreeToggle<CR>
@@ -358,14 +411,6 @@ let g:neosnippet#disable_runtime_snippets = {
 " Custom snippets
 let g:neosnippet#snippets_directory='/home/gadhi/.local/share/nvim/plugged/vim-snippets/snippets'
 
-"SuperTablike Behaviour
-" imap <expr><TAB>
-" \ pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ?
-" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-" smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
 " Conceal markers
 if has('conceal')
     set conceallevel=2 concealcursor=niv
@@ -377,7 +422,7 @@ endif
 " \ "\<Plug>(neosnippet_expand)" : "\<CR>"
 
 "Clear markers when leaving insert mode
-" autocmd InsertLeave * NeoSnippetClearMarkers
+autocmd InsertLeave * NeoSnippetClearMarkers
 
 " UltiSnips
 " let g:UltiSnipsExpandTrigger="<c-y>"
@@ -385,15 +430,20 @@ endif
 " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "Ale
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
 let g:ale_fixers = {
             \'javascript': ['eslint'],
             \'css': ['stylelint'],
             \}
 noremap <leader>[13;69 :ALEFix<CR>
+noremap <leader>gd :ALEGoToDefinition<CR>
+noremap <leader>fr :ALEFindReferences<CR>
 
 "Path for unity
 let g:ale_cs_mcsc_assemblies = [
             \ '/home/gadhi/Unity-2018.1.6f1/Editor/Data/Managed/UnityEngine.dll',
+            \ '/home/gadhi/Unity-2018.1.6f1/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll',
             \]
 
 " SuperTab
@@ -404,6 +454,13 @@ let g:AutoPairsShortcutJump = "<leader><M-n>"
 
 "Deoplete-TernJs
 let g:deoplete#sources#ternjs#tern_bin = '/home/gadhi/builds/tern/bin/tern'
+let g:deoplete#sources#ternjs#case_insensitive = 1
+let g:deoplete#sources#ternjs#include_keywords = 1
+let g:deoplete#sources#ternjs#omit_object_prototype = 0
+let g:deoplete#sources#ternjs#filetypes = [
+            \ 'jsx',
+            \ 'javascript.jsx',
+            \ ]
 
 "JSX
 let g:jsx_ext_required = 0

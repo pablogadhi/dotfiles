@@ -1,7 +1,7 @@
 #!/bin/bash
 
 homeFiles='.eslintrc.json .Xresources .zshrc Scripts'
-confDirFiles='aurman bspwm nvim polybar ranger rofi sxhkd wal compton.conf'
+confDirFiles='yay bspwm nvim polybar ranger rofi sxhkd wal compton.conf'
 
 for file in $homeFiles 
 do 

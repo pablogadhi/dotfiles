@@ -6,6 +6,10 @@
 super + Return
 	urxvt
 
+# new terminal from same dir
+super + shift + Return
+       urxvt -cd `xdotool getactivewindow getwindowname | cut -d ":" -f 2 | sed -e 's@~@'"$HOME"'@'`
+
 # program launcher
 super + d
 	rofi -show drun

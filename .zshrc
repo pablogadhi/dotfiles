@@ -111,3 +111,7 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
 #FZF source files
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
+
+#FZF configuration
+export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
