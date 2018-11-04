@@ -3,14 +3,13 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
-" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
@@ -23,13 +22,10 @@ Plug 'dylanaraps/wal.vim'
 Plug 'mattn/emmet-vim', { 'for': ['html', 'javascript.jsx'] }
 Plug 'chiel92/vim-autoformat'
 Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' }
-Plug 'https://gitlab.com/mixedCase/deoplete-omnisharp.git', { 'for': 'cs' }
-Plug 'OrangeT/vim-csharp', { 'for': 'cs' }
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'ap/vim-css-color', { 'for' : 'css' }
 Plug 'hail2u/vim-css3-syntax', { 'for' : 'css' }
-Plug 'brooth/far.vim'
 Plug 'mhinz/vim-startify'
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -40,9 +36,7 @@ else
 endif
 Plug 'zchee/deoplete-jedi', { 'for': 'python' }
 Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx' ] }
-Plug 'Shougo/neosnippet'
-" Plug 'Shougo/neosnippet-snippets'
-" Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'isRuslan/vim-es6', { 'for': ['javascript', 'javascript.jsx' ] }
 Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx' ] }
@@ -52,6 +46,9 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
 Plug 'ervandew/supertab'
 Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-unimpaired'
+Plug 'eugen0329/vim-esearch'
+Plug 'ekalinin/dockerfile.vim', { 'for': 'dockerfile' }
 
 call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -162,16 +159,17 @@ set spelllang=en_us
 set splitright
 
 "Improve completition popup
-set completeopt=menuone
+set completeopt=longest,menuone
+set completeopt-=preview
 
 "Se code folding method
-"set foldmethod=indent
+set foldmethod=manual
 
 "Set max folding nested levels
-"set foldnestmax=3
+set foldnestmax=3
 
 "Set folding column 'size'
-"set foldcolumn=1
+set foldcolumn=0
 
 "Make undo persistent (You can undo even after closing Vim)
 try
@@ -186,8 +184,8 @@ au BufReadPost *
             \ |   exe "normal! g`\""
             \ | endif
 
-"Save as root with :W!
-command WS w !sudo tee "%" > /dev/null
+"Save as root with :WS
+command! WS w !sudo tee "%" > /dev/null
 
 "Improve startup speed in neovim
 let g:python_host_prog  = '/usr/bin/python2'
@@ -211,13 +209,13 @@ endfunction
 " Close QuickFix window if its the last
 au BufEnter * call MyLastWindow()
 function! MyLastWindow()
-  " if the window is quickfix go on
-  if &buftype=="quickfix"
-    " if this window is last on screen quit without warning
-    if winbufnr(2) == -1
-      quit!
+    " if the window is quickfix go on
+    if &buftype=="quickfix"
+        " if this window is last on screen quit without warning
+        if winbufnr(2) == -1
+            quit!
+        endif
     endif
-  endif
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -228,12 +226,15 @@ au ColorScheme * hi Normal ctermbg=none guibg=none
 au ColorScheme * hi CursorLine term=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 colorscheme wal
 
+" Ale errors and warnings
+highlight ALEError ctermbg=None cterm=underline ctermfg=Cyan
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Linewise up and down movement
-nmap j gj
-nmap k gk
+nnoremap <expr> j v:count ? 'j' : 'gj'
+nnoremap <expr> k v:count ? 'k' : 'gk'
 
 " Search for selected text, forwards or backwards.
 vnoremap <silent> * :<C-U>
@@ -257,10 +258,10 @@ noremap <C-l> <C-W>l
 noremap <leader>ss :setlocal spell!<cr>
 
 "Copy to clipboard
-vnoremap  <leader>y  "+y
-nnoremap  <leader>Y  "+yg_
-nnoremap  <leader>y  "+y
-nnoremap  <leader>yy  "+yy
+vnoremap <leader>y  "+y
+nnoremap <leader>Y  "+yg_
+nnoremap <leader>y  "+y
+nnoremap <leader>yy  "+yy
 
 "Paste from clipboard
 nnoremap <leader>p "+p
@@ -269,7 +270,7 @@ vnoremap <leader>p "+p
 vnoremap <leader>P "+P
 
 "Indent and put cursor between with Ctrl-Enter
-inoremap [13;5u <CR><CR><Up><Tab>
+" inoremap [13;5u <CR><CR><Up><Tab>
 
 "Exit from emulated terminal with ESC
 tnoremap <C-E> <C-\><C-n>
@@ -277,9 +278,6 @@ tnoremap <C-E> <C-\><C-n>
 "Make < > shifts keep selection
 vnoremap < <gv
 vnoremap > >gv
-
-"Disable W command
-map W <Nop>
 
 "Add numbered up and down movements to the jumplist
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
@@ -291,6 +289,45 @@ vnoremap <Space> zf
 
 " No hlsearch
 nnoremap <leader>nh :nohlsearch<CR>
+
+" Toggle line wrapping on and off
+noremap <silent> <Leader>w :call ToggleWrap()<CR>
+function! ToggleWrap()
+    if &wrap
+        echo "Wrap OFF"
+        setlocal nowrap
+        set virtualedit=all
+        silent! nunmap <buffer> <Up>
+        silent! nunmap <buffer> <Down>
+        silent! nunmap <buffer> <Home>
+        silent! nunmap <buffer> <End>
+        silent! iunmap <buffer> <Up>
+        silent! iunmap <buffer> <Down>
+        silent! iunmap <buffer> <Home>
+        silent! iunmap <buffer> <End>
+    else
+        echo "Wrap ON"
+        setlocal wrap linebreak nolist
+        set virtualedit=
+        setlocal display+=lastline
+        noremap  <buffer> <silent> <Up>   gk
+        noremap  <buffer> <silent> <Down> gj
+        noremap  <buffer> <silent> <Home> g<Home>
+        noremap  <buffer> <silent> <End>  g<End>
+        inoremap <buffer> <silent> <Up>   <C-o>gk
+        inoremap <buffer> <silent> <Down> <C-o>gj
+        inoremap <buffer> <silent> <Home> <C-o>g<Home>
+        inoremap <buffer> <silent> <End>  <C-o>g<End>
+    endif
+endfunction
+
+" Completion Enhancement mappings
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+            \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+            \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins Settings and Mappings
@@ -315,14 +352,11 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 let g:airline_symbols.maxlinenr = '並'
 
-"CtrlP
-" let g:ctrlp_cmd = 'CtrlPBuffer'
-
 " FZF
 noremap ; :Buffers<CR>
 noremap <C-P> :Files<CR>
 noremap <leader>t :Tags<CR>
-noremap <leader>f :Ag<Space>
+noremap <leader>ag :Ag<CR>
 
 " Match FZF with colorscheme
 let g:fzf_colors =
@@ -344,6 +378,10 @@ let g:fzf_colors =
 noremap <C-Space> :NERDTreeToggle<CR>
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
+" Change Working Directory when root folder is changed
+let g:NERDTreeChDirMode = 2
+" Close NerdTree if it is the last window
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 "NerdTree Git Plugin
 let g:NERDTreeIndicatorMapCustom = {
@@ -377,17 +415,17 @@ let g:NERDToggleCheckAllLines = 1
 
 "AutoFormat
 autocmd BufWrite * execute "normal! \mf"
-noremap [13;69 :Autoformat<CR>
-
-"Omnisharp
-let g:OmniSharp_server_type = 'v1'
-let g:OmniSharp_server_path = '/home/gadhi/builds/omnisharp-server/OmniSharp/bin/Debug/OmniSharp.exe'
-let g:OmniSharp_server_use_mono = 1
+noremap <leader>af :Autoformat<CR>
 
 "Deoplete
 let g:deoplete#enable_at_startup = 1
 let g:neopairs#enable = 1
 call deoplete#custom#source('_', 'converters', ['converter_auto_paren'])
+
+" Deoplete Debugging
+" call deoplete#custom#option('profile', v:true)
+" call deoplete#enable_logging('DEBUG', 'deoplete.log')
+" call deoplete#custom#source('omnisharp', 'is_debug_enabled', 1)
 
 "Emmet
 let g:user_emmet_leader_key='<C-E>'
@@ -397,60 +435,37 @@ let g:user_emmet_settings = {
             \  },
             \}
 
-" NeoSnippets
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-Y>     <Plug>(neosnippet_expand_or_jump)
-smap <C-Y>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-Y>     <Plug>(neosnippet_expand_target)
-
-" Disable Runtime Snippets
-let g:neosnippet#disable_runtime_snippets = {
-            \   '_' : 1,
-            \ }
-
-" Custom snippets
-let g:neosnippet#snippets_directory='/home/gadhi/.local/share/nvim/plugged/vim-snippets/snippets'
-
-" Conceal markers
-if has('conceal')
-    set conceallevel=2 concealcursor=niv
-endif
-
-" Expand the completed snippet trigger by <CR>.
-" imap <expr><CR>
-" \ (pumvisible() && neosnippet#expandable()) ?
-" \ "\<Plug>(neosnippet_expand)" : "\<CR>"
-
-"Clear markers when leaving insert mode
-autocmd InsertLeave * NeoSnippetClearMarkers
-
 " UltiSnips
-" let g:UltiSnipsExpandTrigger="<c-y>"
-" let g:UltiSnipsJumpForwardTrigger="<c-y>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsExpandTrigger="<c-y>"
+let g:UltiSnipsJumpForwardTrigger="<c-y>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "Ale
-let g:ale_set_quickfix = 1
-let g:ale_open_list = 1
+let g:ale_completion_enabled = 0
+let g:ale_lint_on_text_changed = "always"
+let g:ale_open_list = 0
+let g:ale_linters = {
+            \ 'cs': ['OmniSharp'],
+            \ 'python': ['pylint'],
+            \}
 let g:ale_fixers = {
             \'javascript': ['eslint'],
             \'css': ['stylelint'],
+            \ 'python': ['autopep8'],
             \}
-noremap <leader>[13;69 :ALEFix<CR>
 noremap <leader>gd :ALEGoToDefinition<CR>
 noremap <leader>fr :ALEFindReferences<CR>
-
-"Path for unity
-let g:ale_cs_mcsc_assemblies = [
-            \ '/home/gadhi/Unity-2018.1.6f1/Editor/Data/Managed/UnityEngine.dll',
-            \ '/home/gadhi/Unity-2018.1.6f1/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll',
-            \]
 
 " SuperTab
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
 "AutoPairs
 let g:AutoPairsShortcutJump = "<leader><M-n>"
+
+"OmniSharp
+let g:OmniSharp_timeout = 30
+let g:OmniSharp_want_snippet = 1
+let g:OmniSharp_server_use_mono = 1
 
 "Deoplete-TernJs
 let g:deoplete#sources#ternjs#tern_bin = '/home/gadhi/builds/tern/bin/tern'
@@ -464,3 +479,11 @@ let g:deoplete#sources#ternjs#filetypes = [
 
 "JSX
 let g:jsx_ext_required = 0
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Mappings that need to be at the end in order to work
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+noremap  <buffer> <silent> k gk
+noremap  <buffer> <silent> j gj
+noremap  <buffer> <silent> 0 g0
+noremap  <buffer> <silent> $ g$

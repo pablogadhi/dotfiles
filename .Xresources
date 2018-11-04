@@ -46,11 +46,11 @@ Xft.rgba: rgb
 ! Urxvt Settings
 URxvt*depth: 32
 URxvt*scrollBar: false
-URxvt*font: xft:FantasqueSansMono Nerd Font:pixelsize=17:style=bold
-URxvt*boldFont: xft:FantasqueSansMono Nerd Font:pixelsize=17:style=bold
-URxvt*italicFont: xft:FantasqueSansMono Nerd Font:pixelsize=17:style=italic
-URxvt*boldItalicFont: xft:FantasqueSansMono Nerd Font:pixelsize=17:style=bolditalic
-URxvt*internalBorder: 14
+URxvt*font: xft:FuraCode Nerd Font:pixelsize=14:style=bold
+URxvt*boldFont: xft:FuraCode Nerd Font:pixelsize=14:style=bold
+URxvt*italicFont: xft:FuraCode Nerd Font:pixelsize=14:style=italic
+URxvt*boldItalicFont: xft:FuraCode Nerd Font:pixelsize=14:style=bolditalic
+URxvt*internalBorder: 16
 URxvt*letterSpace: 0
 
 URxvt.resize-font.step: 1
@@ -67,8 +67,11 @@ URxvt*scrollTtyKeypress: true
 ! Disable bindings for shift clipboard managment
 URxvt.iso14755: false
 URxvt.iso14755_52: false
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
 
-URxvt.perl-ext-common: resize-font,selection-to-clipboard
+! Extensions
+URxvt.perl-ext-common: resize-font,selection-to-clipboard,eval
 
 ! Remap Ctrl-Enter
 URxvt.keysym.Control-Return: \[13;5u

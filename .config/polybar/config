@@ -40,11 +40,11 @@ padding = 2
 module-margin = 1
 
 ; Primary font
-font-0 = "FantasqueSansMono Nerd Font:pixelsize=13:style=bold;3"
+font-0 = "FuraCode Nerd Font:pixelsize=12:style=bold;2"
 ; Icons font
-font-1 = "FantasqueSansMono Nerd Font:pixelsize=14:style=bold;2"
+font-1 = "FuraCode Nerd Font:pixelsize=14:style=bold;3"
 ; Special sized font
-font-2 = "FantasqueSansMono Nerd Font:pixelsize=20:style=bold;3"
+font-2 = "FuraCode Nerd Font:pixelsize=18:style=bold;4"
 
 modules-left = volume wlan
 modules-center = bspwm

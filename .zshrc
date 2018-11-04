@@ -11,7 +11,7 @@ export ZSH=/home/gadhi/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="bira"
+ZSH_THEME="candy"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -70,6 +70,7 @@ plugins=(
     archlinux
     python
     yarn
+    docker
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -103,10 +104,15 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim="nvim"
+alias py="python"
 
 #Personal Exports
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
 #export PATH=$PATH:$JAVA_HOME/bin
+export PATH=$PATH:/home/gadhi/DockerUtilities
+# export PATH=$PATH:/opt/anaconda/bin
+# export NUMBAPRO_NVVM=/opt/cuda/nvvm/lib64/libnvvm.so
+# export NUMBAPRO_LIBDEVICE=/opt/cuda/nvvm/libdevice/
 
 #FZF source files
 source /usr/share/fzf/key-bindings.zsh
