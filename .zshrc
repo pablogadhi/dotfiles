@@ -63,14 +63,14 @@ ZSH_THEME="candy"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    git
-    sudo
-    npm
-    pip
-    archlinux
-    python
-    yarn
-    docker
+git
+sudo
+npm
+pip
+archlinux
+python
+yarn
+docker
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -121,3 +121,6 @@ source /usr/share/fzf/completion.zsh
 #FZF configuration
 export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+#Source nvm
+source /usr/share/nvm/init-nvm.sh

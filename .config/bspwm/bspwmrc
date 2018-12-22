@@ -44,6 +44,6 @@ bspc rule -a Chromium desktop=^2 follow=on
 bspc rule -a Code desktop=^3 follow=on
 bspc rule -a Unity desktop=^3 follow=on
 bspc rule -a jetbrains-studio desktop=^3 follow=on
-bspc rule -a URxvt desktop=^4 follow=on
+bspc rule -a kitty desktop=^4 follow=on
 bspc rule -a GitKraken desktop=^5 follow=on
 bspc rule -a Spotify desktop=^6 follow=on
