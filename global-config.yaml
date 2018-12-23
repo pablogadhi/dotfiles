@@ -1,0 +1,27 @@
+config:
+  backup: true
+  banner: true
+  create: true
+  dotpath: ./global
+  ignoreempty: false
+  keepdot: false
+  link_by_default: false
+  longkey: false
+  showdiff: false
+  workdir: ~/.config/dotdrop/global
+dotfiles:
+  f_environment:
+    dst: /etc/environment
+    src: etc/environment
+  f_grub:
+    dst: /etc/default/grub
+    src: etc/default/grub
+  f_mkinitcpio.conf:
+    dst: /etc/mkinitcpio.conf
+    src: etc/mkinitcpio.conf
+profiles:
+  thearchive:
+    dotfiles:
+    - f_grub
+    - f_mkinitcpio.conf
+    - f_environment

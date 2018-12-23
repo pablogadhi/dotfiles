@@ -1,0 +1,9 @@
+#
+# This file is parsed by pam_env module
+#
+# Syntax: simple "KEY=VAL" pairs on separate lines
+#
+
+VISUAL="/usr/bin/nvim"
+EDITOR="/usr/bin/nvim"
+VK_ICD_FILENAMES="/usr/share/vulkan/icd.d/nvidia_icd.json"
