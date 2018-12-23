@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/home/gadhi/Documents/Web/web2018'
+let g:netrw_dirhist_2='/home/gadhi/Documents/Web/web2018/sem6'
+let g:netrw_dirhist_3='/home/gadhi/Documents/Web/web2018/sem6/life-cycle-events-demo'
+let g:netrw_dirhist_4='/home/gadhi/Documents/Web/web2018/sem6/life-cycle-events-demo/src'
+let g:netrw_dirhist_5='/home/gadhi/Documents/Web/web2018/sem6/life-cycle-events-demo'
+let g:netrw_dirhist_6='/home/gadhi/Documents/Web/web2018/sem6/life-cycle-events-demo/src'
+let g:netrw_dirhist_7='/home/gadhi/Documents/Sistema-de-Denuncias-SAA/src'
