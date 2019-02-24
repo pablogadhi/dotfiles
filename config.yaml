@@ -62,7 +62,7 @@ dotfiles:
     dst: ~/.zshrc
     src: zshrc
 profiles:
-  thearchive:
+  thearchway:
     dotfiles:
     - f_xinitrc
     - d_scripts

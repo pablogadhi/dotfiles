@@ -105,14 +105,16 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim="nvim"
 alias py="python"
+alias unzipSame="find -name '*.zip' -exec sh -c 'unzip -d "${1%.*}" "$1"' _ {} \;"
 
 #Personal Exports
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
+#export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
 #export PATH=$PATH:$JAVA_HOME/bin
-export PATH=$PATH:/home/gadhi/DockerUtilities
+#export PATH=$PATH:/home/gadhi/DockerUtilities
 # export PATH=$PATH:/opt/anaconda/bin
 # export NUMBAPRO_NVVM=/opt/cuda/nvvm/lib64/libnvvm.so
 # export NUMBAPRO_LIBDEVICE=/opt/cuda/nvvm/libdevice/
+export PATH=$PATH:~/.gem/ruby/2.5.0/bin
 
 #FZF source files
 source /usr/share/fzf/key-bindings.zsh
@@ -122,5 +124,5 @@ source /usr/share/fzf/completion.zsh
 export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-#Source nvm
+#NVM
 source /usr/share/nvm/init-nvm.sh

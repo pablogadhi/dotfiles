@@ -8,50 +8,50 @@ super + Return
 
 
 # new terminal from same dir for urxvt
-/* super + shift + Return */
-       /* urxvt -cd `xdotool getactivewindow getwindowname | cut -d ":" -f 2 | sed -e 's@~@'"$HOME"'@'` */
+#super + shift + Return
+#    urxvt -cd `xdotool getactivewindow getwindowname | cut -d ":" -f 2 | sed -e 's@~@'"$HOME"'@'`
 
 # program launcher
-super + d
-	rofi -show drun
+#super + d
+#    rofi -show drun
 
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
 
 # Media Keys
-XF86MonBrightnessUp
-    light -A 10
+#XF86MonBrightnessUp
+#    light -A 10
 
-XF86MonBrightnessDown
-    light -U 10
+#XF86MonBrightnessDown
+#    light -U 10
 
-XF86AudioRaiseVolume
-    pactl set-sink-mute 0 false; \
-    pactl set-sink-volume 0 +5%
-
-XF86AudioLowerVolume
-    pactl set-sink-mute 0 false; \
-    pactl set-sink-volume 0 -5%
-
-XF86AudioMute
-    pactl set-sink-mute 0 toggle
-
-XF86AudioPlay
-    playerctl play-pause
-
-XF86AudioNext
-    playerctl next
-
-XF86AudioPrev
-    playerctl previous
-
-XF86Tools
-    pavucontrol
+#XF86AudioRaiseVolume
+#    pactl set-sink-mute 0 false; \
+#    pactl set-sink-volume 0 +5%
+#
+#XF86AudioLowerVolume
+#    pactl set-sink-mute 0 false; \
+#    pactl set-sink-volume 0 -5%
+#
+#XF86AudioMute
+#    pactl set-sink-mute 0 toggle
+#
+#XF86AudioPlay
+#    playerctl play-pause
+#
+#XF86AudioNext
+#    playerctl next
+#
+#XF86AudioPrev
+#    playerctl previous
+#
+#XF86Tools
+#    pavucontrol
 
 # screenshot
-Print
-    gnome-screenshot --interactive
+#Print
+#    gnome-screenshot --interactive
 
 #
 # bspwm hotkeys
