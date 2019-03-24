@@ -22,7 +22,7 @@ for monitor in `bspc query -M`; do
     i=$(( i + per ))
 done
 
-bspc config border_width         2
+bspc config border_width         0
 bspc config window_gap          24
 bspc config top_padding         34
 
@@ -52,14 +52,13 @@ bspc rule -a ark desktop=^1 state=floating follow=on
 bspc rule -a Nemo desktop=^1 state=floating follow=on
 bspc rule -a Firefox desktop=^2 follow=on
 bspc rule -a Chromium desktop=^2 follow=on
-bspc rule -a Code desktop=^3 follow=on
+bspc rule -a code-oss desktop=^3 follow=on
 bspc rule -a Unity desktop=^4 follow=on
 bspc rule -a jetbrains-studio desktop=^3 follow=on
 bspc rule -a jetbrains-rider desktop=^3 follow=on
 bspc rule -a jetbrains-pycharm desktop=^3 follow=on
 bspc rule -a jetbrains-webstorm desktop=^3 follow=on
 bspc rule -a kitty desktop=^4 follow=on
-bspc rule -a jetbrains-datagrip desktop=^5 follow=on
 bspc rule -a DBeaver desktop=^5 follow=on
 bspc rule -a GitKraken desktop=^5 follow=on
 bspc rule -a Spotify desktop=^6 follow=on

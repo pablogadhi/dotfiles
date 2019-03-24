@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set Wallpaper
-wal -a 65 -i "${HOME}/Pictures/cyberpunk/" -n
+wal -a 65 -i "${HOME}/Pictures/Discrete Art" -n
 feh --bg-fill "$(< "${HOME}/.cache/wal/wal")"
 
 # Update bspwm colors

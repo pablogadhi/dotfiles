@@ -3,7 +3,7 @@
 while true
 do
     # Set Wallpaper
-    wal -a 65 -i "/home/gadhi/Pictures/cyberpunk/" -n
+    wal -a 65 -i "/home/gadhi/Pictures/Discrete Art" -n
     feh --bg-fill "$(< "${HOME}/.cache/wal/wal")"
 
     # Set bspwm colors

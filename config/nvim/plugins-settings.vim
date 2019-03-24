@@ -3,7 +3,7 @@
 " Plugins Settings and Mappings
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Airline
+" Airline
 let g:airline_theme = 'term'
 let g:airline_powerline_fonts = 1
 let g:airline_skip_empty_sections = 1
@@ -45,7 +45,7 @@ let g:fzf_colors =
             \ 'spinner': ['fg', 'Label'],
             \ 'header':  ['fg', 'Comment'] }
 
-"NerdTree
+" NerdTree
 noremap <C-Space> :NERDTreeToggle<CR>
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
@@ -54,7 +54,7 @@ let g:NERDTreeChDirMode = 2
 " Close NerdTree if it is the last window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-"NerdTree Git Plugin
+" NerdTree Git Plugin
 let g:NERDTreeIndicatorMapCustom = {
             \ "Modified"  : "",
             \ "Staged"    : "",
@@ -68,23 +68,28 @@ let g:NERDTreeIndicatorMapCustom = {
             \ "Unknown"   : "?"
             \ }
 
-"DevIcons
+" DevIcons
 let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ' '
 let g:DevIconsDefaultFolderOpenSymbol = ' '
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
 
-"Tagbar
+" Tagbar
 noremap <M-Space> :TagbarToggle<CR>
 
-"Nerd Commenter
+" Nerd Commenter
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
-"NerCommenter support for vue.js
+nmap <C-_>   <Plug>NERDCommenterToggle
+" nmap <C-s-_>   <Plug>NERDComSexyComment
+vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
+" vmap <C-s-_>   <Plug>NERDComSexyComment<CR>gv
+
+" NerCommenter support for vue.js
 let g:ft = ''
 function! NERDCommenter_before()
     if &ft == 'vue'
@@ -105,77 +110,61 @@ function! NERDCommenter_after()
     endif
 endfunction
 
-"AutoFormat
-autocmd BufWrite * execute "normal! \mf"
-noremap <leader>af :Autoformat<CR>
+" AutoFormat
+" autocmd BufWrite * execute "normal! \mf"
+" noremap <leader>af :Autoformat<CR>
 
-"Deoplete
-let g:deoplete#enable_at_startup = 1
-let g:neopairs#enable = 1
-call deoplete#custom#source('_', 'converters', ['converter_auto_paren'])
-
-" Deoplete Debugging
-" call deoplete#custom#option('profile', v:true)
-" call deoplete#enable_logging('DEBUG', 'deoplete.log')
-" call deoplete#custom#source('omnisharp', 'is_debug_enabled', 1)
-
-"Emmet
-let g:user_emmet_leader_key='<C-E>'
+" Emmet
+let g:user_emmet_leader_key='<tab>'
 let g:user_emmet_settings = {
             \  'javascript.jsx' : {
             \      'extends' : 'jsx',
             \  },
             \}
 
-" UltiSnips
-let g:UltiSnipsExpandTrigger="<c-y>"
-let g:UltiSnipsJumpForwardTrigger="<c-y>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-"Ale
+" Ale
 let g:ale_completion_enabled = 0
-let g:ale_lint_on_text_changed = "always"
 let g:ale_open_list = 0
-let g:ale_linters = {
-            \ 'cs': ['OmniSharp'],
-            \ 'python': ['pylint'],
-            \}
-let g:ale_fixers = {
-            \'javascript': ['eslint'],
-            \'css': ['stylelint'],
-            \ 'python': ['autopep8'],
-            \}
+let g:ale_fix_on_save = 1
+
 noremap <leader>gd :ALEGoToDefinition<CR>
 noremap <leader>fr :ALEFindReferences<CR>
+noremap <leader>af :ALEFix<CR>
 
-" SuperTab
-let g:SuperTabDefaultCompletionType = "<c-n>"
+let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
+let g:ale_linters = {
+    \'vue': ['eslint', 'vls']
+\}
 
-"AutoPairs
-let g:AutoPairsShortcutJump = "<leader><M-n>"
+let g:ale_fixers = {
+\   'python': ['black'],
+\   'vue': ['eslint'],
+\   '*': ['remove_trailing_lines', 'trim_whitespace']
+\}
 
-"OmniSharp
-let g:OmniSharp_timeout = 30
-let g:OmniSharp_want_snippet = 1
-let g:OmniSharp_server_use_mono = 1
+" COC
+inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
+let g:coc_snippet_next = '<TAB>'
+let g:coc_snippet_prev = '<S-TAB>'
 
-"Deoplete-TernJs
-let g:deoplete#sources#ternjs#tern_bin = '/home/gadhi/builds/tern/bin/tern'
-let g:deoplete#sources#ternjs#case_insensitive = 1
-let g:deoplete#sources#ternjs#include_keywords = 1
-let g:deoplete#sources#ternjs#omit_object_prototype = 0
-let g:deoplete#sources#ternjs#filetypes = [
-            \ 'jsx',
-            \ 'javascript.jsx',
-            \ ]
+" YouCompleteMe
+" let g:ycm_python_interpreter_path = ''
+" let g:ycm_python_sys_path = []
+" let g:ycm_extra_conf_vim_data = [
+"   \  'g:ycm_python_interpreter_path',
+"   \  'g:ycm_python_sys_path'
+"   \]
+" let g:ycm_global_ycm_extra_conf = '~/.ymc_global_conf.py'
+" let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>']
 
-"JSX
-let g:jsx_ext_required = 0
+" UltiSnips
+" let g:UltiSnipsExpandTrigger="<c-j>"
+" let g:UltiSnipsJumpForwardTrigger="<c-j>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 "HARD MODE
 " let g:hardtime_default_on = 1
 
 "VUE
-let g:vue_disable_pre_processors=1
+" let g:vue_disable_pre_processors=1
 autocmd FileType vue syntax sync fromstart
-autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css

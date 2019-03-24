@@ -1,5 +1,6 @@
 if [ $# -gt 0 ]; then
     $*
 else
+    export NVIDIA_ENV=TRUE
     startkde
 fi
