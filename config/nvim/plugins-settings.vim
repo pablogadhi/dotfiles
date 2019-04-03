@@ -143,9 +143,10 @@ let g:ale_fixers = {
 \}
 
 " COC
-inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
-let g:coc_snippet_next = '<TAB>'
-let g:coc_snippet_prev = '<S-TAB>'
+let g:coc_snippet_next = '<C-Y>'
+let g:coc_snippet_prev = '<C-B>'
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
 " YouCompleteMe
 " let g:ycm_python_interpreter_path = ''
@@ -158,9 +159,9 @@ let g:coc_snippet_prev = '<S-TAB>'
 " let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>']
 
 " UltiSnips
-" let g:UltiSnipsExpandTrigger="<c-j>"
-" let g:UltiSnipsJumpForwardTrigger="<c-j>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsExpandTrigger="<c-y>"
+let g:UltiSnipsJumpForwardTrigger="<c-y>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 "HARD MODE
 " let g:hardtime_default_on = 1

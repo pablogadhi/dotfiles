@@ -3,5 +3,17 @@
   "suggest.noselect": false,
   // when snippet activated and pumvisible, prefer complete completion.
   "suggest.preferCompleteThanJumpPlaceholder": true,
-  "suggest.snippetIndicator": "►"
+  "suggest.minTriggerInputLength": 2,
+  "suggest.snippetIndicator": "►",
+  "languageserver": {
+      "cquery": {
+        "command": "cquery",
+        "args": ["--log-file=/tmp/cq.log"],
+        "filetypes": ["c", "cpp"],
+        "rootPatterns": ["compile_flags.txt", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+        "initializationOptions": {
+            "cacheDirectory": "/tmp/cquery"
+        }
+      }
+  }
 }
