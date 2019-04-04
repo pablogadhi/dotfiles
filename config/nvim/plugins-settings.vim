@@ -147,6 +147,7 @@ let g:coc_snippet_next = '<C-Y>'
 let g:coc_snippet_prev = '<C-B>'
 " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+inoremap <silent><expr> <tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<tab>"
 
 " YouCompleteMe
 " let g:ycm_python_interpreter_path = ''

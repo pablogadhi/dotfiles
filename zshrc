@@ -105,7 +105,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim="nvim"
 alias py="python"
-alias unzipSame="find -name '*.zip' -exec sh -c 'unzip -d "${1%.*}" "$1"' _ {} \;"
+alias dotdrop="~/dotfiles/dotdrop.sh --cfg=~/dotfiles/config.yaml"
 
 #Personal Exports
 #export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
