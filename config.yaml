@@ -5,10 +5,11 @@ config:
   dotpath: .
   ignoreempty: false
   keepdot: false
-  link_by_default: false
   longkey: false
   showdiff: false
   workdir: ~/.config/dotdrop
+  link_on_import: nolink
+  minversion: 0.29.5
 dotfiles:
   d_bspwm:
     dst: ~/.config/bspwm
@@ -62,7 +63,7 @@ dotfiles:
     dst: ~/.zshrc
     src: zshrc
 profiles:
-  thearchway:
+  popinjay:
     dotfiles:
     - f_xinitrc
     - d_scripts
