@@ -1,2 +1,2 @@
 # Gadhi's Dotfiles
-This dotfiles are managed using dotdrop.
+Dotfiles for the Arch configuration.
