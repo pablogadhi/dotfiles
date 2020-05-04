@@ -1,2 +1,2 @@
 # Gadhi's Dotfiles
-This dotfiles are managed using dotdrop.
+Each host-specific configuration has its own branch.
