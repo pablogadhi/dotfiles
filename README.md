@@ -1,2 +1,2 @@
 # Gadhi's Dotfiles
-Each host-specific configuration has its own branch.
+Dotfiles for the Pop!_OS configuration.
