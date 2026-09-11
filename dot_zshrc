@@ -99,9 +99,6 @@ export PATH=$HOME/bin:${HOME}/.bin:${HOME}/.local/bin:${HOME}/Apps:/usr/local/bi
 # KindleGen
 export PATH="${PATH}:${HOME}/kindlegen_linux_2.6_i386_v2_9"
 
-# TSL Scripts
-export PATH="${PATH}:${HOME}/Documents/TSL/tsl-scripts"
-
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -116,7 +113,6 @@ alias python="python3"
 alias pip="pip3"
 alias vim="nvim"
 alias upsys="sudo apt update && sudo apt upgrade"
-alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 alias gpurun="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
 alias android-studio="$HOME/android-studio/bin/studio"
 alias fix_diegos_keyboard='echo 2 | sudo tee /sys/module/hid_apple/parameters/fnmode'
@@ -130,10 +126,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 eval 
 
-# Twilio
-TWILIO_AC_ZSH_SETUP_PATH=/home/gadhi/.twilio-cli/autocomplete/zsh_setup && test -f $TWILIO_AC_ZSH_SETUP_PATH && source $TWILIO_AC_ZSH_SETUP_PATH; # twilio autocomplete setup
-alias twilio-dev="docker start twilio && docker exec -it twilio /usr/local/bin/twilio dev-phone"
-
 # Flux
 command -v flux >/dev/null && . <(flux completion zsh)
 
@@ -142,14 +134,8 @@ export ANDROID_HOME="$HOME/Android/Sdk"
 export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
 export JAVA_HOME="$HOME/android-studio/jbr"
 
-# ZScaler
-alias zscaler="sudo systemctl start zstunnel.service zsaservice.service && /opt/zscaler/bin/ZSTray && sudo systemctl stop zstunnel.service zsaservice.service"
-
 # The Fuck
 #eval $(thefuck --alias)
-
-# Yarn Packages
-export PATH="$PATH:$(yarn global bin)"
 
 # Neovim
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
