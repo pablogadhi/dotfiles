@@ -99,6 +99,11 @@ export PATH=$HOME/bin:${HOME}/.bin:${HOME}/.local/bin:${HOME}/Apps:/usr/local/bi
 # KindleGen
 export PATH="${PATH}:${HOME}/kindlegen_linux_2.6_i386_v2_9"
 
+# Remember more than one dir for cd
+setopt AUTO_PUSHD           # every cd pushes onto the directory stack
+setopt PUSHD_IGNORE_DUPS    # don't stack the same dir twice
+setopt PUSHD_SILENT         # don't print the stack on every cd
+
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -112,7 +117,7 @@ alias py="python3"
 alias python="python3"
 alias pip="pip3"
 alias vim="nvim"
-alias upsys="sudo apt update && sudo apt upgrade"
+alias update-system="sudo apt update && sudo apt upgrade"
 alias gpurun="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
 alias android-studio="$HOME/android-studio/bin/studio"
 alias fix_diegos_keyboard='echo 2 | sudo tee /sys/module/hid_apple/parameters/fnmode'
@@ -139,3 +144,9 @@ export JAVA_HOME="$HOME/android-studio/jbr"
 
 # Neovim
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+
+# Kitty
+alias update-kitty="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin installer=nightly"
+
+# Homebrew
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
