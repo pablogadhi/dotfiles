@@ -1,0 +1,70 @@
+{
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "model": "opus",
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "gitkraken-hooks@gitkraken": true,
+    "lua-lsp@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "chrome-devtools-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "ChromeDevTools/chrome-devtools-mcp"
+      }
+    },
+    "gitkraken": {
+      "source": {
+        "source": "directory",
+        "path": "/home/gadhi/.claude/plugins/marketplaces/gitkraken"
+      }
+    }
+  },
+  "sandbox": {
+    "enabled": true,
+    "failIfUnavailable": true,
+    "autoAllowBashIfSandboxed": true,
+    "allowUnsandboxedCommands": false,
+    "filesystem": {
+      "denyRead": [
+        "~/.ssh",
+        "~/.aws/credentials",
+        "~/.gnupg",
+        "~/.netrc",
+        "~/.kube"
+      ]
+    }
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "d=\"$CLAUDE_PROJECT_DIR\"; [ -n \"$d\" ] && [ \"$d\" != \"$HOME\" ] && cd \"$d\" || exit 0; n=$( { find . -maxdepth 1 -name '.*' -type f -empty -perm 0444 -print -delete; [ -d .claude ] && find .claude -maxdepth 1 -type f -empty -perm 0444 -print -delete; } 2>/dev/null | wc -l); [ \"$n\" -gt 0 ] && printf '{\"systemMessage\":\"Removed %s leftover sandbox stub file(s)\"}\\n' \"$n\"; exit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "feedbackDrafts": "notify",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
+  },
+  "tui": "fullscreen",
+  "theme": "dark-ansi",
+  "preferredNotifChannel": "kitty",
+  "inputNeededNotifEnabled": false,
+  "skipAutoPermissionPrompt": true
+}

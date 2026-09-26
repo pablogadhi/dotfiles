@@ -121,9 +121,13 @@ alias update-system="sudo apt update && sudo apt upgrade"
 alias gpurun="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
 alias android-studio="$HOME/android-studio/bin/studio"
 alias fix_diegos_keyboard='echo 2 | sudo tee /sys/module/hid_apple/parameters/fnmode'
-alias ssh="kssh"
-alias cat="ccat"
-alias less="cless"
+
+# Aliases that can interfere with claude
+if [[ -z "$CLAUDECODE" ]]; then
+  alias cat="ccat"
+  alias less="cless"
+  alias ssh="kssh"
+fi
 
 # NVM config
 export NVM_DIR="$HOME/.nvm"
