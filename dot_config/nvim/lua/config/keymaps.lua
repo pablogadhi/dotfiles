@@ -7,6 +7,9 @@ vim.keymap.set("n", "<leader>;", function()
   Snacks.dashboard()
 end, { desc = "Dashboard" })
 
+-- Leave terminal mode with <C-q> in every terminal (Sidekick already uses it)
+vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Enter Normal Mode" })
+
 -- Quit and Delete Session
 vim.keymap.set("n", "<leader>qD", function()
   local persistence = require("persistence")

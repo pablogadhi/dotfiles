@@ -148,6 +148,8 @@ export JAVA_HOME="$HOME/android-studio/jbr"
 
 # Neovim
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+# Mason tools (shellcheck, markdownlint-cli2, prettier...) on the CLI; appended so system installs win
+export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
 
 # Kitty
 alias update-kitty="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin installer=nightly"

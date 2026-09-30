@@ -5,9 +5,33 @@
     "sessionUrl": false
   },
   "permissions": {
-    "defaultMode": "auto"
+    "defaultMode": "plan"
   },
   "model": "opus",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "d=\"$CLAUDE_PROJECT_DIR\"; [ -n \"$d\" ] && [ \"$d\" != \"$HOME\" ] && cd \"$d\" || exit 0; n=$( { find . -maxdepth 1 -name '.*' -type f -empty -perm 0444 -print -delete; [ -d .claude ] && find .claude -maxdepth 1 -type f -empty -perm 0444 -print -delete; } 2>/dev/null | wc -l); [ \"$n\" -gt 0 ] && printf '{\"systemMessage\":\"Removed %s leftover sandbox stub file(s)\"}\\n' \"$n\"; exit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in *.md) command -v markdownlint-cli2 >/dev/null || exit 0; markdownlint-cli2 \"$f\" >&2 || exit 2;; *.sh|*.env) command -v shellcheck >/dev/null || exit 0; shellcheck \"$f\" >&2 || exit 2;; esac"
+          }
+        ]
+      }
+    ]
+  },
   "enabledPlugins": {
     "context7@claude-plugins-official": true,
     "gitkraken-hooks@gitkraken": true,
@@ -43,19 +67,6 @@
       ]
     }
   },
-  "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "d=\"$CLAUDE_PROJECT_DIR\"; [ -n \"$d\" ] && [ \"$d\" != \"$HOME\" ] && cd \"$d\" || exit 0; n=$( { find . -maxdepth 1 -name '.*' -type f -empty -perm 0444 -print -delete; [ -d .claude ] && find .claude -maxdepth 1 -type f -empty -perm 0444 -print -delete; } 2>/dev/null | wc -l); [ \"$n\" -gt 0 ] && printf '{\"systemMessage\":\"Removed %s leftover sandbox stub file(s)\"}\\n' \"$n\"; exit 0",
-            "timeout": 10
-          }
-        ]
-      }
-    ]
-  },
   "feedbackDrafts": "notify",
   "modelSettings": {
     "claude-opus-5-5": {
@@ -65,6 +76,48 @@
   "tui": "fullscreen",
   "theme": "dark-ansi",
   "preferredNotifChannel": "kitty",
-  "inputNeededNotifEnabled": false,
-  "skipAutoPermissionPrompt": true
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "autoMode": {
+    "environment": [
+      "### Org-wide",
+      "**Organization**: None configured",
+      "**Cloud provider(s)**: None configured — this is a fully local kind Kubernetes lab (\"Nothing is deployed to a cloud\" per CLAUDE.md)",
+      "**Repository visibility**: assume private (not queryable via gh — org/repo not derivable from origin remote; no visibility signals found)",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: None configured — component connection Secrets (e.g. apps/<name>-conn) are generated in-cluster, not an external secrets manager",
+      "**Default / protected branches**: main (default branch from repo facts; protection status not queryable via gh)",
+      "**CI/CD deploy targets**: None configured — no cloud deploy targets; local kind cluster context \"kind-sdl\" only, driven by Flux (OCI artifact in local registry, no Git remote) and Tilt",
+      "**Network posture**: local-only lab; app reachable at http://localhost:8080 via NodePort; Docker Desktop host cannot reach container IPs directly",
+      "**Host containment**: Claude Code runs sandboxed on the host machine; commands needing Docker/the cluster (make up/ci/e2e/smoke/load/chaos, kubectl, helm, docker, kind, tilt, k6) run outside the sandbox via excludedCommands and must be run bare (no pipe/cd/&&/redirect chaining); the sandbox has no Docker socket and no host localhost; kubeconfig/helm/tilt state are repo-local (scripts/env.sh) — never touch ~/.kube/config; writes to ~/.config are blocked outside the chezmoi dotfiles repo",
+      "**Source control**: The trusted repo (this repo, 'ad-aggregator') and its 'origin' remote only — origin is the design template repo per CLAUDE.md (\"origin = the template\")",
+      "**Trusted internal domains**: None configured",
+      "**Trusted cloud buckets**: flink-state (config-derived — not a confirmed upload destination; uploads of local data still require confirmation)",
+      "**Key internal services**: sdl-registry (local Docker image registry used by the kind cluster, contacted in recent usage); auth.apps.svc.cluster.local (in-cluster auth service, contacted in recent usage)",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material; preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment",
+      "**Protected deployment namespaces / environments**: flux-system (Flux-managed GitOps namespace — CLAUDE.md states Flux owns infra/, manual kubectl/helm changes to those objects are reverted; must suspend the kustomization first); otherwise falls back to the Sensitive remote targets heuristic",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment; also infra/ (Flux-owned) per CLAUDE.md — manual kubectl/helm edits there are reverted",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development — building/operating a local multi-node Kubernetes system-design lab (infra, FastAPI services, stream pipelines, Next.js client) via the /build-design skill and its subagents",
+      "**Trusted repo**: This repo ('ad-aggregator', a System Design Lab instance) and its 'origin' remote (the design template)",
+      "**Org-specific CLIs**: None configured — lab-specific tooling is scripts/flux.sh (Flux CLI wrapper) and the Makefile targets (doctor, up, down, sync, smoke, test, ci, dev, e2e, load, chaos, chaos-clear, new-service, graph, harvest, nuke)",
+      "routine under this repo's Makefile / scripts/ prefix qualifies as trusted lab tooling (e.g. make up, make smoke, make ci, scripts/env.sh, scripts/flux.sh)"
+    ],
+    "allow": [
+      "$defaults",
+      "Bash(make doctor:*)",
+      "Bash(make smoke:*)",
+      "Bash(make test:*)",
+      "Bash(make graph:*)"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Bash(make nuke:*)",
+      "Bash(make harvest:*)"
+    ]
+  }
 }
