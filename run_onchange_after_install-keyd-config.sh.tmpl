@@ -1,0 +1,11 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+# keyd config hash: {{ include ".system/keyd/default.conf" | sha256sum }}
+set -e
+if ! systemctl cat keyd.service >/dev/null 2>&1; then
+  echo "keyd service not installed, skipping" >&2
+  exit 1
+fi
+sudo install -D -m 644 "{{ .chezmoi.sourceDir }}/.system/keyd/default.conf" /etc/keyd/default.conf
+sudo systemctl restart keyd
+{{ end -}}

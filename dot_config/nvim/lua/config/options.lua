@@ -8,3 +8,14 @@ vim.filetype.add({
   pattern = { [".*%.tiltfile"] = "tiltfile" },
 })
 vim.treesitter.language.register("starlark", "tiltfile")
+
+-- .env files aren't scripts: own filetype so bashls/shellcheck skip them, bash highlighting
+vim.filetype.add({
+  filename = { [".env"] = "dotenv" },
+  pattern = {
+    -- a different key than util.dot's "%.env%.[%w_.-]+" = "sh", so the priority wins over it
+    [".*%.env%.[%w_.-]+"] = { "dotenv", { priority = 10 } },
+    [".*%.env"] = "dotenv",
+  },
+})
+vim.treesitter.language.register("bash", "dotenv")
