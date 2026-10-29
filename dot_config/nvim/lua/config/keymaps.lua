@@ -10,6 +10,25 @@ end, { desc = "Dashboard" })
 -- Leave terminal mode with <C-q> in every terminal (Sidekick already uses it)
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Enter Normal Mode" })
 
+-- Toggle tokyonight transparency (re-applies the colorscheme with the updated options)
+Snacks.toggle
+  .new({
+    id = "tokyonight_transparent",
+    name = "Transparent Background",
+    get = function()
+      return require("tokyonight.config").options.transparent
+    end,
+    set = function(state)
+      local opts = require("tokyonight.config").options
+      local style = state and "transparent" or "dark"
+      opts.transparent = state
+      opts.styles.sidebars = style
+      opts.styles.floats = style
+      vim.cmd.colorscheme(vim.g.colors_name)
+    end,
+  })
+  :map("<leader>uB")
+
 -- Quit and Delete Session
 vim.keymap.set("n", "<leader>qD", function()
   local persistence = require("persistence")
